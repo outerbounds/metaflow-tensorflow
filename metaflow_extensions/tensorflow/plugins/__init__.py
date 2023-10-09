@@ -15,7 +15,7 @@ from metaflow.plugins.parallel_decorator import ParallelDecorator, _local_multin
 
 class TensorFlowParallelDecorator(ParallelDecorator):
 
-    name = "tensorflow_parallel"
+    name = "tensorflow"
     defaults = {}
     IS_PARALLEL = True
 
@@ -85,4 +85,4 @@ def setup_tf_distributed(run):
     json_config = json.dumps({"cluster": cluster, "task": my_task})
     os.environ["TF_CONFIG"] = json_config
 
-STEP_DECORATORS_DESC = [("tensorflow_parallel", ".TensorFlowParallelDecorator")]
+STEP_DECORATORS_DESC = [("tensorflow", ".TensorFlowParallelDecorator")]

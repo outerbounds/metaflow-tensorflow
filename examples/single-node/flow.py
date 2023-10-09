@@ -1,4 +1,4 @@
-from metaflow import FlowSpec, step, batch, conda, tensorflow_parallel, environment
+from metaflow import FlowSpec, step, batch, conda, environment
 
 N_GPU=2
 
@@ -28,4 +28,4 @@ class SingleNodeTensorFlow(FlowSpec):
         pass
 
 if __name__ == "__main__":
-    CoreweaveSingleNodeTensorFlow()
+    SingleNodeTensorFlow()
