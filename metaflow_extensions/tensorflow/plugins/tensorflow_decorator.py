@@ -84,5 +84,3 @@ def setup_tf_distributed(run):
     }
     json_config = json.dumps({"cluster": cluster, "task": my_task})
     os.environ["TF_CONFIG"] = json_config
-
-STEP_DECORATORS_DESC = [("tensorflow", ".TensorFlowParallelDecorator")]
