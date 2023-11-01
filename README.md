@@ -21,9 +21,9 @@ The rest of this `README.md` file describes how you can use TensorFlow with Meta
 # TensorFlow Distributed on Metaflow guide
 The examples in this repository are based on the [original TensorFlow Examples](https://www.tensorflow.org/guide/distributed_training#examples_and_tutorials).
 
-### Examples
+### Examples and guides
 
-| Directory | torch script description |
+| Directory | TensorFlow script description |
 | :--- | ---: |
 | [MirroredStrategy](examples/single-node/flow.py) | Synchronous distributed training on multiple GPUs on one machine. |  
 | [MultiWorkerMirroredStrategy](examples/multi-node/flow.py) | Synchronous distributed training across multiple workers, each with potentially multiple GPUs. |  
@@ -39,3 +39,6 @@ We have found the easiest way to install TensorFlow for GPU is to use the pre-ma
 #### Fault Tolerance
 See [TensorFlow documentation on this matter](https://www.tensorflow.org/tutorials/distribute/multi_worker_with_keras#fault_tolerance).
 The TL;DR is to use a flavor of `tf.distribute.Strategy`, which implement mechanisms to handle worker failures gracefully.
+
+### License 
+`metaflow-tensorflow` is distributed under the <u>Apache License</u>.
