@@ -1,1 +1,3 @@
-STEP_DECORATORS_DESC = [("tensorflow", ".tensorflow_decorator.TensorFlowParallelDecorator")]
+STEP_DECORATORS_DESC = [
+    ("tensorflow", ".tensorflow_decorator.TensorFlowParallelDecorator")
+]

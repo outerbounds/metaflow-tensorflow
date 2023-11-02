@@ -11,10 +11,13 @@ from pathlib import Path
 from threading import Thread
 from metaflow.exception import MetaflowException
 from metaflow.unbounded_foreach import UBF_CONTROL
-from metaflow.plugins.parallel_decorator import ParallelDecorator, _local_multinode_control_task_step_func
+from metaflow.plugins.parallel_decorator import (
+    ParallelDecorator,
+    _local_multinode_control_task_step_func,
+)
+
 
 class TensorFlowParallelDecorator(ParallelDecorator):
-
     name = "tensorflow"
     defaults = {}
     IS_PARALLEL = True
@@ -22,7 +25,6 @@ class TensorFlowParallelDecorator(ParallelDecorator):
     def task_decorate(
         self, step_func, flow, graph, retry_count, max_user_code_retries, ubf_context
     ):
-
         def _empty_mapper_task():
             pass
 
@@ -32,10 +34,10 @@ class TensorFlowParallelDecorator(ParallelDecorator):
                 return partial(
                     _local_multinode_control_task_step_func,
                     flow,
-                    env_to_use, 
+                    env_to_use,
                     step_func,
                     retry_count,
-                )    
+                )
             return partial(_empty_mapper_task)
 
         return super().task_decorate(
@@ -45,8 +47,8 @@ class TensorFlowParallelDecorator(ParallelDecorator):
     def setup_distributed_env(self, flow):
         setup_tf_distributed(flow)
 
-def setup_tf_distributed(run):
 
+def setup_tf_distributed(run):
     from metaflow import current, S3
 
     num_nodes = current.parallel.num_nodes
@@ -77,10 +79,7 @@ def setup_tf_distributed(run):
 
     my_task = {"type": "worker", "index": node_index}
     cluster = {
-        "worker": [
-            all_workers[node_id]["address"] 
-            for node_id in range(num_nodes)
-        ]
+        "worker": [all_workers[node_id]["address"] for node_id in range(num_nodes)]
     }
     json_config = json.dumps({"cluster": cluster, "task": my_task})
     os.environ["TF_CONFIG"] = json_config
