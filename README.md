@@ -25,8 +25,8 @@ The examples in this repository are based on the [original TensorFlow Examples](
 
 | Directory | TensorFlow script description |
 | :--- | ---: |
-| [MirroredStrategy](examples/single-node/flow.py) | Synchronous distributed training on multiple GPUs on one machine. |  
-| [MultiWorkerMirroredStrategy](examples/multi-node/flow.py) | Synchronous distributed training across multiple workers, each with potentially multiple GPUs. |  
+| [MirroredStrategy](examples/single-node/README.md) | Synchronous distributed training on multiple GPUs on one machine. |  
+| [MultiWorkerMirroredStrategy](examples/multi-node/README.md) | Synchronous distributed training across multiple workers, each with potentially multiple GPUs. |  
 
 #### Parameter Server
 Not yet tested, please reach out to the Outerbounds team if you need help.
