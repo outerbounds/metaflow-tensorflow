@@ -1,5 +1,5 @@
 # Metaflow TensorFlow decorator
-The [`tf.distribute.Strategy`](https://www.tensorflow.org/api_docs/python/tf/distribute/Strategy) allows TensorFlow developers to distribute model training to multiple GPUs/TPUs and machines. 
+The [`tf.distribute.Strategy`](https://www.tensorflow.org/api_docs/python/tf/distribute/Strategy) allows TensorFlow developers to distribute model training to multiple GPUs/TPUs and machines. This repository implements the Metaflow `@tensorflow` decorator, which sets up a multi-node Metaflow step to use this functionality.
 
 ### Features
 
