@@ -12,7 +12,7 @@ class SingleNodeTensorFlow(FlowSpec):
 
     @gpu_profile(interval=1)
     @environment(vars={"TF_CPP_MIN_LOG_LEVEL": "2"})
-    @kubernetes(gpu=2, image="registry.hub.docker.com/tensorflow/tensorflow:2.18.0-gpu")
+    @kubernetes(gpu=2, image="registry.hub.docker.com/tensorflow/tensorflow:2.15.0-gpu")
     @pypi(
         packages={
             "tensorflow-datasets": "4.9.7",
