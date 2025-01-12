@@ -6,7 +6,7 @@ The following four files showcase how to leverage tensorflow's `MirroredStrategy
 
 2. `train_mnist.py` contains the main snippet for how to use the `MirroredStrategy` while training a model on the MNIST dataset.
 
-3. `flow.py` contains a flow that uses the training code from `train_mnist.py` and uses the docker image `tensorflow/tensorflow:2.18.0-gpu` for GPU setup.
+3. `flow.py` contains a flow that uses the training code from `train_mnist.py` and uses the docker image `tensorflow/tensorflow:2.15.0-gpu` for GPU setup.
 
 - This can be run using `python flow.py --environment=pypi run`
 - If you are on the [Outerbounds](https://outerbounds.com/) platform, you can leverage `fast-bakery` for blazingly fast docker image builds. This can be used by `python flow.py --environment=fast-bakery run`
