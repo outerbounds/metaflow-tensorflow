@@ -1,8 +1,37 @@
-# Original Source: https://www.tensorflow.org/tutorials/distribute/multi_worker_with_keras
+# Adapted from https://www.tensorflow.org/tutorials/distribute/multi_worker_with_keras
 
 import os
-import tensorflow as tf
+import tarfile
 import numpy as np
+import tensorflow as tf
+
+
+def _is_main(task_type, task_id):
+    return (task_type == "worker" and task_id == 0) or task_type is None
+
+
+def _get_temp_dir(dirpath, task_id):
+    base_dirpath = "workertemp_" + str(task_id)
+    temp_dir = os.path.join(dirpath, base_dirpath)
+    tf.io.gfile.makedirs(temp_dir)
+    return temp_dir
+
+
+def write_filepath(filepath, task_type, task_id):
+    dirpath = os.path.dirname(filepath)
+    base = os.path.basename(filepath)
+    if not _is_main(task_type, task_id):
+        dirpath = _get_temp_dir(dirpath, task_id)
+    return os.path.join(dirpath, base)
+
+
+def keras_model_path_to_tar(
+    local_model_dir: str = "/model",
+    local_tar_name="model.tar.gz",
+):
+    with tarfile.open(local_tar_name, mode="w:gz") as _tar:
+        _tar.add(local_model_dir, recursive=True)
+    return local_tar_name
 
 
 def mnist_dataset(batch_size):
@@ -39,35 +68,6 @@ def build_and_compile_cnn_model():
     return model
 
 
-def _is_main(task_type, task_id):
-    return (task_type == "worker" and task_id == 0) or task_type is None
-
-
-def _get_temp_dir(dirpath, task_id):
-    base_dirpath = "workertemp_" + str(task_id)
-    temp_dir = os.path.join(dirpath, base_dirpath)
-    tf.io.gfile.makedirs(temp_dir)
-    return temp_dir
-
-
-def write_filepath(filepath, task_type, task_id):
-    dirpath = os.path.dirname(filepath)
-    base = os.path.basename(filepath)
-    if not _is_main(task_type, task_id):
-        dirpath = _get_temp_dir(dirpath, task_id)
-    return os.path.join(dirpath, base)
-
-
-def keras_model_path_to_tar(
-    local_model_dir: str = "/model", local_tar_name="model.tar.gz"
-):
-    import tarfile
-
-    with tarfile.open(local_tar_name, mode="w:gz") as _tar:
-        _tar.add(local_model_dir, recursive=True)
-    return local_tar_name
-
-
 def main(
     per_worker_batch_size=64,
     epochs=25,
@@ -84,10 +84,10 @@ def main(
     multi_worker_dataset = mnist_dataset(global_batch_size)
 
     with strategy.scope():
-        # Model building/compiling need to be within `strategy.scope()`.
+        # model building / compiling need to be within `strategy.scope()`.
         model = build_and_compile_cnn_model()
 
-    # The training state is backed up at epoch boundaries by default.
+    # the training state is backed up at epoch boundaries by default.
     # Restore the last checkpoint, and continue training from the beginning of the epoch
     # and step at which the training state was last saved.
     callbacks = [tf.keras.callbacks.BackupAndRestore(backup_dir="/tmp/backup")]
@@ -97,7 +97,6 @@ def main(
         steps_per_epoch=steps_per_epoch,
         callbacks=callbacks,
     )
-
     print("Model training complete.")
 
     # save model
@@ -107,6 +106,7 @@ def main(
     )
     keras_model_path = write_filepath(local_model_dir, task_type, task_id)
     model.save(keras_model_path)
+
 
     # push tar file to s3
     if _is_main(task_type, task_id):
