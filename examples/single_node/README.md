@@ -11,4 +11,4 @@ The following four files showcase how to leverage tensorflow's `MirroredStrategy
 - This can be run using `python flow.py --environment=pypi run`
 - If you are on the [Outerbounds](https://outerbounds.com/) platform, you can leverage `fast-bakery` for blazingly fast docker image builds. This can be used by `python flow.py --environment=fast-bakery run`
 
-4. `reload.ipynb` showcases how to use the trained model for inference later on.
+4. `reload.ipynb` showcases how to use the trained model for inference later on. Please make sure to have `tensorflow==2.15.1` installed locally to be able to run this notebook correctly.
